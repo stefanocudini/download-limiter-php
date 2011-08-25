@@ -1,0 +1,8 @@
+#!/bin/bash
+#genera un file di prova della dimensione specificata
+
+SIZE=$1
+F=${SIZE}MB 
+
+dd if=/dev/zero of=$F bs=1M count=$SIZE
+mv $F ../download/
