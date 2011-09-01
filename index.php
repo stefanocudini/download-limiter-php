@@ -31,7 +31,7 @@ else:
 	$cdown = count( array_keys(file($countfile),$target."\n") );
 	
 	if( $cdown >= $maxdownload )
-		 NotFound();
+		 NotFound("Il Download di questo file e' stato disabilitato!");
 		 #eliminare il file! e toglierlo da dentro $countfile
 	else
 		$res = sendFile($path);
@@ -44,10 +44,10 @@ else:
 endif;
 
 
-function NotFound()
+function NotFound($mes=false)
 {
     header('HTTP/1.0 404 Not Found');
-    exit("File non disponibile per il download");
+    exit(!$mes?"File non disponibile per il download":$mes);
 }
 
 function sendFile($path, $contentType='application/octet-stream')
