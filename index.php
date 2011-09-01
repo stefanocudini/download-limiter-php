@@ -1,10 +1,10 @@
 <?
 #header("Content-type: text/plain");
-/*echo "ciaociao";
-echo "<br>".$_SERVER['QUERY_STRING']."<hr>";
-phpinfo();
-exit(0);*/
+/*
 
+per file troppo piccoli si ottiene il blocco dello scaricamento anche se il download e' stato annullato dal browser!!!
+
+*/
 $logfile = './downloads.log';
 $countfile = './countdown.log';
 $maxdownload = 3;
@@ -36,8 +36,9 @@ else:
 	else
 		$res = sendFile($path);
 		
-	if(!$res['aborted'])
+	if($res['aborted']===false)
 		@file_put_contents($countfile, $target."\n", FILE_APPEND | LOCK_EX);
+	#se il download non e' stato annullato	
 	
 	Logs($res);
 	//forse mettere una exit() dentro Logs() senno continua l'esecuzione del php...
@@ -80,6 +81,8 @@ function sendFile($path, $contentType='application/octet-stream')
 
 	if (connection_aborted())
 	{
+	#se il download e' stato annullato	
+
 		$res['errors'][] = 'Connection aborted.';
 		$res['aborted'] = true;
 		$res['status'] = false;
