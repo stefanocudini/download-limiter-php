@@ -7,7 +7,7 @@ per file troppo piccoli si ottiene il blocco dello scaricamento anche se il down
 */
 $logfile = './downloads.log';
 $countfile = './countdown.log';
-$maxdownload = 3;
+$maxdownload = 5;
 //limite di download per uno stesso file
 
 $dirdown = "/var/www/easyblog.it/download/";
@@ -31,7 +31,7 @@ else:
 	$cdown = count( array_keys(file($countfile),$target."\n") );
 	
 	if( $cdown >= $maxdownload )
-		 NotFound("Il Download di questo file e' stato disabilitato!");
+		 NotFound("Il Download di questo file e' stato disabilitato! Hai superato il numero massimo di download per questo file");
 		 #eliminare il file! e toglierlo da dentro $countfile
 	else
 		$res = sendFile($path);
