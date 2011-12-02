@@ -1,43 +1,49 @@
 <?
-#header("Content-type: text/plain");
-/*
-
-per file troppo piccoli si ottiene il blocco dello scaricamento anche se il download e' stato annullato dal browser!!!
-
-*/
+//per file troppo piccoli si ottiene il blocco dello scaricamento anche se il download e' stato annullato dal browser!!!
 $logfile = './downloads.log';
 $countfile = './countdown.log';
+$counttryfile = './countinit.log';
 $maxdownload = 5;
-//limite di download per uno stesso file
-
+//limite di download completi per uno stesso file
+$maxtrydown = 10;
+//limite di tentativi di download per uno stesso file
 $dirdown = "/var/www/easyblog.it/download/";
 //directory in cui cercare i file da scaricare!
 //puo cercare anche delle subdirectory di $dirdown! basta specificarlo nel parametro passato allo script
 //da mettere fuori!! della document_root
-
-$target = $_SERVER['QUERY_STRING'];
-//
-////togliere qualunque ../../ si trova in $target prima di scaricare!!!
-//
+$target = basename($_SERVER['QUERY_STRING']);
 
 if(empty($target)):
-?>
-<div style="text-align:center">Area Download</div>
-<?
+
+	//pagina con file di prova
+	$cdown = count( array_keys(file($countfile),'10MB'."\n") );
+	$ctry  = count( array_keys(file($counttryfile),'10MB'."\n") );
+	$remain = $maxdownload - $cdown;
+	$remaintry = $maxtrydown - $ctry;
+	include('test.php');
+
 else:
-	$name = is_file($dirdown.$target) ? $target : NotFound();
-	$path = $dirdown.$name;
+
+	$path = file_exists($dirdown.$target) ? $dirdown.$target : NotFound();
 
 	$cdown = count( array_keys(file($countfile),$target."\n") );
+	$ctry  = count( array_keys(file($counttryfile),$target."\n") );
 	
 	if( $cdown >= $maxdownload )
-		 NotFound("Il Download di questo file e' stato disabilitato! Hai superato il numero massimo di download per questo file");
+		 NotFound("Hai superato il numero massimo di download per questo file");
 		 #eliminare il file! e toglierlo da dentro $countfile
+	elseif( $ctry >= $maxtrydown )
+		 NotFound("Hai superato il numero massimo tentativi di download per questo file");
 	else
+	{
 		$res = sendFile($path);
-		
+	}
+	
 	if($res['aborted']===false)
 		@file_put_contents($countfile, $target."\n", FILE_APPEND | LOCK_EX);
+	else
+		@file_put_contents($counttryfile, $target."\n", FILE_APPEND | LOCK_EX);
+
 	#se il download non e' stato annullato	
 	
 	Logs($res);
