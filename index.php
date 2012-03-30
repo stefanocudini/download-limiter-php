@@ -7,6 +7,8 @@ $maxdownload = 5;
 //limite di download completi per uno stesso file
 $maxtrydown = 10;
 //limite di tentativi di download per uno stesso file
+$limitRate = '100k';
+//limite di banda in download
 $dirdown = "/var/www/easyblog.it/download/";
 //directory in cui cercare i file da scaricare!
 //puo cercare anche delle subdirectory di $dirdown! basta specificarlo nel parametro passato allo script
@@ -57,9 +59,24 @@ function NotFound($mes=false)
     exit(!$mes?"File non disponibile per il download":$mes);
 }
 
+function readfileLimit($file, $limit='100k')
+{
+	$bsize = 1024;
+	$f = popen("pv -B $bsize -L $limit '$file'", 'r');
+	if($f===false)
+		return false;
+	while(!feof($f))
+	{
+		echo fread($f, $bsize);
+		flush();
+	}
+	fclose($f);
+}
+
 function sendFile($path, $contentType='application/octet-stream')
 {
 	global $target;
+	global $limitRate;
 	
 	ignore_user_abort(true);
 	//continua a eseguire php anche se il browser ha stoppato l'esecuzione
@@ -67,7 +84,7 @@ function sendFile($path, $contentType='application/octet-stream')
 	header('Content-Transfer-Encoding: binary');
 	header('Content-Disposition: attachment; filename="'.basename($path) . "\";");
 	header("Content-Transfer-Encoding: binary");	
-	header("Content-Type: $contentType");
+	header("Content-Type: ".mime_content_type(basename($path)));
 	header("Content-Length: ".@filesize($path));
 
 	$res = array(
@@ -78,7 +95,7 @@ function sendFile($path, $contentType='application/octet-stream')
 		'aborted' => false
 		);
 
-	$res['readfileStatus'] = readfile($path);
+	$res['readfileStatus'] = readfileLimit($path,$limitRate);
 	
 	if ($res['readfileStatus'] === false)
 	{
