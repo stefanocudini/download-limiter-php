@@ -1,6 +1,6 @@
 <?
 
-$dirdown = "/var/www/easyblog.it/download/";
+$dirdown = "./downfiles/";
 
 $name = (isset($_SERVER['QUERY_STRING']) and 
 		 is_file($dirdown.$_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : die("File Not Found");

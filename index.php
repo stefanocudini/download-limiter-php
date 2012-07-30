@@ -9,7 +9,7 @@ $maxtrydown = 10;
 //limite di tentativi di download per uno stesso file
 $limitRate = '200k';
 //limite di banda in download
-$dirdown = "/var/www/easyblog.it/download/";
+$dirdown = "./downfiles/";
 //directory in cui cercare i file da scaricare!
 //puo cercare anche delle subdirectory di $dirdown! basta specificarlo nel parametro passato allo script
 //da mettere fuori!! della document_root
@@ -43,7 +43,7 @@ else:
 	else
 		@file_put_contents($counttryfile, $target."\n", FILE_APPEND | LOCK_EX);
 
-	#se il download non e' stato annullato	
+	#se il download non e' stato annullato
 
 	Logs($res);
 	//forse mettere una exit() dentro Logs() senno continua l'esecuzione del php...
@@ -53,7 +53,7 @@ endif;
 function NotFound($mes=false)
 {
     header('HTTP/1.0 404 Not Found');
-    exit(!$mes?"File non disponibile per il download":$mes);
+    exit(!$mes ? 0 : $mes);
 }
 
 function readfileLimit($file, $limit='100k')
