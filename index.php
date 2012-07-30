@@ -3,18 +3,17 @@
 $logfile = './downloads.log';
 $countfile = './countdown.log';
 $counttryfile = './countinit.log';
-$maxdownload = 5;
+$maxdownload = 8;
 //limite di download completi per uno stesso file
 $maxtrydown = 10;
 //limite di tentativi di download per uno stesso file
-$limitRate = '100k';
+$limitRate = '200k';
 //limite di banda in download
 $dirdown = "/var/www/easyblog.it/download/";
 //directory in cui cercare i file da scaricare!
 //puo cercare anche delle subdirectory di $dirdown! basta specificarlo nel parametro passato allo script
 //da mettere fuori!! della document_root
 $target = basename($_SERVER['QUERY_STRING']);
-
 if(empty($target)):
 
 	//pagina con file di prova
@@ -30,24 +29,22 @@ else:
 
 	$cdown = count( array_keys(file($countfile),$target."\n") );
 	$ctry  = count( array_keys(file($counttryfile),$target."\n") );
-	
+
 	if( $cdown >= $maxdownload )
 		 NotFound("Hai superato il numero massimo di download per questo file");
 		 #eliminare il file! e toglierlo da dentro $countfile
 	elseif( $ctry >= $maxtrydown )
 		 NotFound("Hai superato il numero massimo tentativi di download per questo file");
 	else
-	{
 		$res = sendFile($path);
-	}
-	
+
 	if($res['aborted']===false)
 		@file_put_contents($countfile, $target."\n", FILE_APPEND | LOCK_EX);
 	else
 		@file_put_contents($counttryfile, $target."\n", FILE_APPEND | LOCK_EX);
 
 	#se il download non e' stato annullato	
-	
+
 	Logs($res);
 	//forse mettere una exit() dentro Logs() senno continua l'esecuzione del php...
 endif;
@@ -84,7 +81,7 @@ function sendFile($path, $contentType='application/octet-stream')
 	header('Content-Transfer-Encoding: binary');
 	header('Content-Disposition: attachment; filename="'.basename($path) . "\";");
 	header("Content-Transfer-Encoding: binary");	
-	header("Content-Type: ".mime_content_type(basename($path)));
+	header("Content-Type: ".mime_content_type($path));
 	header("Content-Length: ".@filesize($path));
 
 	$res = array(
