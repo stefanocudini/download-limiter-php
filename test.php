@@ -23,6 +23,6 @@
 	<i>Hai terminato il numero massimo di download.</i>
 <? endif; ?>
 </div>
-<script type="text/javascript" src="/labs.analytics.js"></script>
+<script type="text/javascript" src="/labs-common.js"></script>
 </body>
 </html>
