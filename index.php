@@ -7,7 +7,7 @@ $maxdownload = 8;
 //limite di download completi per uno stesso file
 $maxtrydown = 10;
 //limite di tentativi di download per uno stesso file
-$limitRate = '200k';
+$limitRate = '100k';
 //limite di banda in download
 $dirdown = "./downfiles/";
 //directory in cui cercare i file da scaricare!

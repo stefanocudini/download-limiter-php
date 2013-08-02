@@ -11,7 +11,7 @@
 	<li>Al termine del download ricarica la pagina</li>
 	<li>Scarica di nuovo il file annullando prima del termine</il>
 	<li>Finch&egrave; si annulla il download prima del termine, il contatore non cambia</li>
-	<li>La velocita di download &egrave; sempre limitata a 200 KBytes/s</li>
+	<li>La velocita di download &egrave; sempre limitata a 100 KBytes/s</li>
 </ol>
 <diV style="float:left;border:1px solid #ccc;padding:.5em;">
 <? if($remain>0 and $remaintry>0): ?>
