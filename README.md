@@ -1,6 +1,8 @@
+Download Bandwidth Limit by PHP
+============
 
 requirements:
 	apt-get install pv
 
-http://www.ivarch.com/programs/pv.shtml
+[pv](http://www.ivarch.com/programs/pv.shtml)
 
