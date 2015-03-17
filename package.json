@@ -1,0 +1,25 @@
+{
+  "name": "download-limiter-php",
+  "version": "0.0.0",
+  "description": "PHP Download System to limit the number of completions and configurable speed limits",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stefanocudini/download-limiter-php.git"
+  },
+  "keywords": [
+    "php",
+    "download",
+    "limit",
+    "bandwidth"
+  ],
+  "author": "Stefano Cudini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stefanocudini/download-limiter-php/issues"
+  },
+  "homepage": "https://github.com/stefanocudini/download-limiter-php"
+}
