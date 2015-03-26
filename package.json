@@ -13,8 +13,8 @@
   "keywords": [
     "php",
     "download",
-    "limit",
-    "bandwidth"
+	"bash",
+	"server"
   ],
   "author": "Stefano Cudini",
   "license": "MIT",
