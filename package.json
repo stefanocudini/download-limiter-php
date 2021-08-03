@@ -1,6 +1,6 @@
 {
   "name": "download-limiter-php",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "PHP Download System to limit the number of completions and configurable speed limits",
   "main": "index.js",
   "scripts": {
@@ -13,8 +13,8 @@
   "keywords": [
     "php",
     "download",
-	"bash",
-	"server"
+    "bash",
+    "server"
   ],
   "author": "Stefano Cudini",
   "license": "MIT",
